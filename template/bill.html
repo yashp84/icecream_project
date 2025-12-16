@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bill - Order #{{ order.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff; padding: 30px; }
+        h2 { text-align: center; }
+        table { width: 80%; margin: auto; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { padding: 12px; border: 1px solid #ccc; text-align: center; }
+        th { background-color: #f5f5dc; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        h3 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Bill - Order #{{ order.id }}</h2>
+    <p>User: {{ order.user.username }}</p>
+    <p>Date: {{ order.date }}</p>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        {% for item in order.items.all %}
+        <tr>
+            <td>{{ item.product.pname }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.price|floatformat:2 }}</td>
+            <td>₹{{ item.price|floatformat:2|floatformat:2|add:item.quantity|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Subtotal: ₹{{ order.total_amount|floatformat:2 }}</h3>
+    <h3>Discount: ₹{{ order.discount|floatformat:2 }}</h3>
+    <h3>Payment Mode: {{ order.get_payment_mode_display }}</h3>
+    <h2>Total: ₹{{ order.total_amount|floatformat:2 }}</h2>
+</body>
+</html>

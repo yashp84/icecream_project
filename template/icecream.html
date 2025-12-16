@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice Cream Shop</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fefcf7; /* soft beige background */
+        }
+
+        header {
+            background-color: #ffffff; /* white header */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #7d5a50; /* soft brown for text */
+        }
+
+        header h5 {
+            color: #a1887f;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .cart {
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .cart a {
+            color: #7d5a50;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .cart a:hover {
+            color: #5d4037;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #ffffff; /* white cards */
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: #7d5a50;
+            margin-bottom: 5px;
+        }
+
+        .card-text {
+            color: #a1887f;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: #d7bfae; /* soft beige button */
+            border-color: #d7bfae;
+            font-weight: 500;
+            color: #5d4037; /* dark brown text on button */
+        }
+
+        .btn-primary:hover {
+            background-color: #c4a38b;
+            border-color: #c4a38b;
+            color: #3e2723;
+        }
+
+        footer {
+            background-color: #f5f0eb; /* beige footer */
+            color: #7d5a50;
+        }
+
+        footer a {
+            color: #7d5a50;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header class="py-3 mb-4">
+    <div class="container text-center">
+        <h1>Our Featured Ice Cream 🍦</h1>
+        <h5>Delight in flavors crafted to bring joy with every scoop — a little sweetness to brighten your day.</h5>
+    </div>
+    <div class="cart">
+        <h5 class="text-right"><a href="{% url 'cart' %}">🛒 Cart</a></h5>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-12 col-md-4 col-lg-3 mb-5">
+            <div class="card h-100">
+                <a class="product-item" href="#"> 
+                    <img src="{{ product.pimage.url }}" style="height: 250px;" class="img-fluid product-thumbnail"> 
+                </a>
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.pname }}</h5>
+                    <p class="card-text">₹ {{ product.pprice }}</p>
+                    <form action="{% url 'add_to_cart' product.pid %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<footer class="text-center py-3 mt-5">
+    &copy; 2025 Ice Cream Shop. All Rights Reserved.
+</footer>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

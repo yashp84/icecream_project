@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Cart</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #ffffff; /* white background */
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #6d4c41; /* soft brown */
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            background-color: #fdf6e3; /* light beige */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e0d6c3; /* beige header */
+            color: #4e342e;
+            font-size: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f7f3ee; /* lighter beige rows */
+        }
+
+        tr:hover {
+            background-color: #f1eadf;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-brown {
+            background-color: #8d6e63;
+            color: white;
+        }
+
+        .btn-brown:hover {
+            background-color: #5d4037;
+        }
+
+        .btn-beige {
+            background-color: #d7ccc8;
+            color: #4e342e;
+        }
+
+        .btn-beige:hover {
+            background-color: #c5b39c;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #6d4c41;
+        }
+
+        h3 {
+            text-align: right;
+            width: 80%;
+            margin: 0 auto;
+            color: #4e342e;
+        }
+
+        #checkout-section {
+            display: none;
+            width: 60%;
+            margin: 30px auto;
+            background: #fdf6e3;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        #checkout-section h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #checkout-section select, #checkout-section input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+        }
+
+        #checkout-section button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🍦 Your Cart 🍦</h2>
+
+{% if cart_items %}
+<table>
+    <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+    </tr>
+    {% for item in cart_items %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>₹{{ item.price|floatformat:2 }}</td>
+        <td>₹{{ item.total|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Total: ₹{{ total_price|floatformat:2 }}</h3>
+
+<div class="cart-actions">
+    <a href="{% url 'icecream' %}" class="btn btn-brown">Continue Shopping</a>
+    <button class="btn btn-beige" onclick="showCheckout()">Checkout</button>
+</div>
+
+
+
+<div id="checkout-section">
+    <h3>Checkout</h3>
+    <form method="POST" action="{% url 'place_order' %}">
+        {% csrf_token %}
+        <label>Payment Mode</label><br>
+        <select name="payment_mode" required>
+            <option value="">-- Select Payment Mode --</option>
+            <option value="COD">Cash on Delivery</option>
+            <option value="UPI">UPI</option>
+            <option value="CARD">Debit / Credit Card</option>
+        </select>
+
+        
+
+
+
+        <button type="submit" class="btn btn-brown">Place Order</button>
+    </form>
+</div>
+
+{% else %}
+<p>Your cart is empty 😔</p>
+<h5 class="text-center">
+<a href="{% url 'index' %}" class="btn btn-brown">Continue Shopping</a>
+</h5>
+{% endif %}
+
+<script>
+function showCheckout() {
+    document.getElementById('checkout-section').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('checkout-section').offsetTop - 20, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>

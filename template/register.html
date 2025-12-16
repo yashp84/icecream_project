@@ -1,0 +1,137 @@
+{% load static %}
+
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Ensure labels above inputs and proper spacing */
+        .contact_section .form-group {
+            margin-bottom: 20px;
+        }
+        .contact_section input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .contact_section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .contact_section button:hover {
+            background-color: #0056b3;
+        }
+        .contact_section h1 {
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body style="background-color: white;">
+
+<!-- Header -->
+<div class="header_section">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/icecream/">Icecream</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/services/">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog/">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- Register Section -->
+<div class="contact_section layout_padding" style="background-color: white; position: relative; z-index: 10; padding: 60px 0;">
+    <div class="container">
+        <div class="row justify-content-start">
+            <div class="col-md-4">
+                <h1 class="contact_taital text-dark mb-4">Register</h1>
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="text-dark" for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-dark" for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-dark" for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-dark" for="uname">Username</label>
+                        <input type="text" id="uname" name="uname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-dark" for="pass1">Password</label>
+                        <input type="password" id="pass1" name="pass1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-dark" for="pass2">Confirm Password</label>
+                        <input type="password" id="pass2" name="pass2" required>
+                    </div>
+
+                    <button type="submit">Register</button>
+                </form>
+
+                <h5 class="mt-3 text-dark">
+                    Already have an account? 
+                    <a href="/login/" class="text-primary">Login Here</a>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Javascript -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/plugin.js' %}"></script>
+<script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+</html>
+{% endblock body %}
